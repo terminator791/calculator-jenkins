@@ -21,13 +21,20 @@ pipeline {
         }
 
         stage("Code coverage") {
-            agent { docker { image 'gradle:7.6-jdk11' } }
-            steps {
-                dir('sample2') {
+          agent { docker { image 'gradle:7.6-jdk11' } }
+          steps {
+               dir('sample2') {
                     sh "gradle jacocoTestReport"
+
+                    publishHTML(target: [
+                         reportDir: 'build/reports/jacoco/test/html',
+                         reportFiles: 'index.html',
+                         reportName: "JaCoCo Report"
+                    ])
+
                     sh "gradle jacocoTestCoverageVerification"
-                }
-            }
-        }
+               }
+          }
+     }
     }
 }
