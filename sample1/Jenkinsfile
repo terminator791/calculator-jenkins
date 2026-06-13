@@ -1,15 +1,23 @@
-pipeline { 
-     agent any 
-     stages { 
-          stage("Compile") { 
-               steps { 
-                    sh "./gradlew compileJava" 
-               } 
-          } 
-          stage("Unit test") { 
-               steps { 
-                    sh "./gradlew test" 
-               } 
-          } 
-     } 
-} 
+pipeline {
+    agent none
+
+    stages {
+        stage("Compile") {
+            agent { docker { image 'gradle:7.6-jdk11' } }
+            steps {
+                dir('sample1') {
+                    sh "gradle compileJava"
+                }
+            }
+        }
+
+        stage("Unit test") {
+            agent { docker { image 'gradle:7.6-jdk11' } }
+            steps {
+                dir('sample1') {
+                    sh "gradle test"
+                }
+            }
+        }
+    }
+}
