@@ -1,0 +1,20 @@
+services:
+  jenkins:
+    build: ./jenkins-docker
+    image: jenkins-docker:lts
+    container_name: jenkins
+    restart: unless-stopped
+    ports:
+      - "8080:8080"     # Web UI
+      - "50000:50000"   # agent (JNLP)
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    # GID group docker host agar user jenkins boleh akses docker.sock.
+    # Override saat run kalau GID-mu bukan 999:
+    #   DOCKER_GID=$(stat -c '%g' /var/run/docker.sock) docker compose up -d
+    group_add:
+      - "${DOCKER_GID:-999}"
+
+volumes:
+  jenkins_home:
