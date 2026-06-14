@@ -1,13 +1,33 @@
 pipeline {
-    agent any
+    agent none
+
     triggers {
         pollSCM('* * * * *')
+        // githubPush()
     }
+
     stages {
         stage("Unit test") {
+            agent { docker { image 'python:3.12' } }
             steps {
-                sh "python test_calculator.py"
+                dir('exercise2') {
+                    sh "python test_calculator.py"
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Python unit test berhasil: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+        }
+
+        failure {
+            echo "Python unit test gagal: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+        }
+
+        always {
+            echo "Build selesai. Detail: ${env.BUILD_URL}"
         }
     }
 }
