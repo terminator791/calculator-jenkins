@@ -5,7 +5,7 @@ All the instructions assumes that:
 * You have Java JDK 8+ installed
 * You have Python installed
 
-## Code Samples
+## Code Sampless
 
 ### Code Sample 1: Basic Commit pipeline for Spring Boot project
 
