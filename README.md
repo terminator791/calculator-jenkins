@@ -1,4 +1,4 @@
-# Chapter 4: Continuous Integration Pipeline
+# Chapter 4: Continuous Integration Pipeline 2
 
 All the instructions assumes that:
 * You have a running Jenkins instance
